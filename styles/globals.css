@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.btn {
+  @apply rounded-md transition-all border-2 border-indigo-500 bg-indigo-500 text-white font-semibold  py-2 px-4 ;
+}
+
+.btn-small {
+  @apply btn;
+  @apply py-1 px-2 ;
+}
+
+.btn-active, .btn:hover {
+  @apply text-indigo-500 bg-white;
+}
+
+.input {
+  @apply appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-700 rounded-sm h-10 px-4;
+}
+
+.table {
+  @apply min-w-max w-full table-auto;
+}
+
+.table-lead {
+  @apply bg-gray-200 text-gray-600 uppercase text-sm leading-normal;
+}
+
+.table-cells td {
+  @apply py-3 px-6;
+}
+.table-cells-centered td {
+  @apply text-center;
+}
+
+.table-cell {
+  @apply py-3 px-6;
+}
+
+.table-row {
+  @apply border-b border-gray-200 hover:bg-gray-100;
+}
+
+.text-primary {
+  @apply text-indigo-500;
+}
