@@ -5,6 +5,7 @@ import { User } from './User';
 import Link from "next/link";
 
 export type Transaction = {
+  id: number ; 
   type: string; //Retrait ou Dépot
   ticket: string;
   clearing: string; //CB ou espèces

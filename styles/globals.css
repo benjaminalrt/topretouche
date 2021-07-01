@@ -45,3 +45,9 @@
 .text-primary {
   @apply text-indigo-500;
 }
+.bg-primary {
+  @apply bg-indigo-500;
+}
+.border-primary {
+  @apply border-indigo-500 border;
+}
