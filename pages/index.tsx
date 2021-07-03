@@ -13,7 +13,7 @@ export const getStaticProps: GetStaticProps = async () => {
 }
 
 type Props = {
-  projects: ProjectProps,
+  projects: ProjectProps[],
 }
 
 const Home: React.FC<Props> = ({projects}) => {
@@ -31,7 +31,6 @@ const Home: React.FC<Props> = ({projects}) => {
           <h1 className="text-3xl font-bold	">Bienvenue {session.user.name || session.user.email} ! Choisissez une boutique</h1>
           <main>
             {projects.map((project) => {
-              console.log([project.users.map(u => u.id), parseInt(session.id)])
               if(project.users.map(u => u.id).includes(parseInt(session.id))){
                 return(<div key={project.id} >
                   <Project project={project} />
