@@ -10,7 +10,7 @@ import { getSession } from "next-auth/client";
 
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { range, sameDay, sameMonth, useForceUpdate } from "lib/utilities"
+import { range, sameDay, sameMonth, useForceUpdate, tr } from "lib/utilities"
 
 import { PencilIcon, TrashIcon, CalendarIcon, TicketIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid'
 import { isSameMonth } from "date-fns"
@@ -102,8 +102,8 @@ const Post: React.FC<Props> = ({project, session} ) => {
   }
   const typeMode = () => {
     switch(tableTypeMode) {
-      case "all" : return "Dépot / retrait";
-      case "depot" : return "Dépot";
+      case "all" : return "Dépôt / retrait";
+      case "depot" : return "Dépôt";
       case "retrait" : return "Retrait";
     }
   }
@@ -145,25 +145,24 @@ const Post: React.FC<Props> = ({project, session} ) => {
                   <input required value={trans.ticket} onChange={(e) => setTrans({...trans, ticket: e.target.value})} placeholder="Exemple: 9200" id="ticketNumber" className="input" type="text" />
                 </div>
                 <div className="flex flex-col">
-                  <label className="font-semibold text-gray-600 py-2" htmlFor="type">Dépot / Retrait</label>
+                  <label className="font-semibold text-gray-600 py-2" htmlFor="type">Dépôt / Retrait</label>
                   <select required value={trans.type} onChange={(e) => setTrans({...trans, type: e.target.value})} id="type" className="input">
                     <option disabled value="">-- Choisir --</option>
                     <option value="retrait">Retrait</option>
-                    <option value="depot">Dépot</option>
+                    <option value="depot">Dépôt</option>
                   </select>
                 </div>
                 <div className="flex flex-col">
                   <label className="font-semibold text-gray-600 py-2" htmlFor="type">Moyen de paiement</label>
                   <select required value={trans.clearing} onChange={(e) => setTrans({...trans, clearing: e.target.value})} id="type" className="input">
-                    <option disabled value="">-- Choisir --</option>
+                    <option value="no">Aucun</option>
                     <option value="cb">Carte bancaire</option>
                     <option value="esp">Espèces</option>
-                    <option value="no">Aucun</option>
                   </select>
                 </div>
                 <div className="flex flex-col">
                   <label className="font-semibold text-gray-600 py-2" htmlFor="amount">Montant</label>
-                  <input required value={trans.amount ? trans.amount : ''} type="text" placeholder="Exemple : 10€" onChange={(e) => setTrans({...trans, amount: e.target.value ? parseFloat(e.target.value) : 0})} id="amount" className="input" />
+                  <input value={trans.amount ? trans.amount : ''} type="text" placeholder="Exemple : 10€" onChange={(e) => setTrans({...trans, amount: e.target.value ? parseFloat(e.target.value) : 0})} id="amount" className="input" />
                 </div>
                 
                 <div className="flex flex-col">
@@ -186,8 +185,8 @@ const Post: React.FC<Props> = ({project, session} ) => {
                 {transactions.filter(t => t.type == (tableTypeMode == "all" ? t.type : tableTypeMode)).map((t,k) => (
                   <tr key={k} className="table-row table-cells table-cells-centered">
                     <td>{t.ticket}</td>
-                    <td>{t.type}</td>
-                    <td>{t.clearing}</td>
+                    <td>{tr('type.'+t.type)}</td>
+                    <td>{tr('clearing.'+t.clearing)}</td>
                     <td>{t.amount} €</td>
                     <td>
                       <div className="flex justify-center space-x-2">
@@ -251,7 +250,7 @@ const Post: React.FC<Props> = ({project, session} ) => {
                    <div className="mt-3 grid grid-rows-20 grid-flow-col border border-gray-300">
                       {ticketArr.map((val,key) => {
                           let statut = checkTicket(val);
-                          return <div className={"text-center p-1 border border-gray-300 " + (statut == 'retrait' ? 'bg-primary text-white font-bold' : '') + (statut == 'depot' ? 'text-primary font-bold' : '')} key={key}>{val}</div>
+                          return <div className={"text-center border border-gray-300 " + (statut == 'retrait' ? 'bg-primary text-white font-bold' : '') + (statut == 'depot' ? 'text-primary font-bold' : '')} key={key}>{val}</div>
                       }
                       )}
                    </div>

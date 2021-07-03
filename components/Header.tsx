@@ -9,6 +9,8 @@ const Header: React.FC = () => {
   const isActive: (pathname: string) => boolean = (pathname) =>
     router.pathname === pathname;
 
+
+
   let left = (
     <div>
       <Link href="/">
@@ -18,7 +20,6 @@ const Header: React.FC = () => {
       </Link>
     </div>
   );
-
   let right = (
     <>
       {session && 

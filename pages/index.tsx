@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useEffect} from "react"
 import { GetStaticProps } from "next"
 import Layout from "components/Layout"
 import Project, { ProjectProps } from "components/Project"
@@ -6,18 +6,19 @@ import prisma from 'lib/prisma'
 import { signIn, signOut, useSession } from "next-auth/client";
 
 export const getStaticProps: GetStaticProps = async () => {
-  const feed = await prisma.project.findMany({
+  const projects = await prisma.project.findMany({
     include: { users: true },
   })
-  return { props: { feed } }
+  return { props: { projects } }
 }
 
 type Props = {
-  feed: ProjectProps[]
+  projects: ProjectProps,
 }
 
-const Home: React.FC<Props> = (props) => {
+const Home: React.FC<Props> = ({projects}) => {
   const [session, loading] = useSession();
+
   return (
     <Layout>
       <div className="container p-4 mx-auto">
@@ -29,12 +30,14 @@ const Home: React.FC<Props> = (props) => {
         <>
           <h1 className="text-3xl font-bold	">Bienvenue {session.user.name || session.user.email} ! Choisissez une boutique</h1>
           <main>
-            {props.feed.map((project) => (
-              
-              <div key={project.id} >
-                <Project project={project} />
-              </div>
-            ))}
+            {projects.map((project) => {
+              console.log([project.users.map(u => u.id), parseInt(session.id)])
+              if(project.users.map(u => u.id).includes(parseInt(session.id))){
+                return(<div key={project.id} >
+                  <Project project={project} />
+                </div>)
+              }
+            })}
           </main>
         </>
         }
